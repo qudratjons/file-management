@@ -1,0 +1,58 @@
+server:
+  port: 8770
+  shutdown: graceful
+  error:
+    include-stacktrace: never
+
+spring:
+  application:
+    name: FILE-MS
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3072KB
+      max-request-size: 3072KB
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+file:
+  upload-path: 'C:\Users\q.rasulov\Desktop\document'
+
+test-ms:
+  endpoint: http://localhost:8080/
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 10
+        waitDurationInOpenState: 7
+        failureRateThreshold: 60
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+    instances:
+      testMsService:
+        baseConfig: default
+      someOtherService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 50s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
