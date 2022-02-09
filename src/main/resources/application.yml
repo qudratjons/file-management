@@ -28,31 +28,10 @@ spring:
       ddl-auto: update
 
 file:
-  upload-path: 'C:\Users\q.rasulov\Desktop\document'
+  upload-path: 'C:\Users\user\Desktop\document'
 
-test-ms:
-  endpoint: http://localhost:8080/
-
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        slidingWindowType: COUNT_BASED
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 10
-        waitDurationInOpenState: 7
-        failureRateThreshold: 60
-        recordExceptions:
-          - org.springframework.web.client.HttpServerErrorException
-    instances:
-      testMsService:
-        baseConfig: default
-      someOtherService:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowType: TIME_BASED
-        minimumNumberOfCalls: 20
-        waitDurationInOpenState: 50s
-        failureRateThreshold: 50
-        eventConsumerBufferSize: 10
+application:
+  translation:
+    properties:
+      baseName: message
+      defaultLocale: uz
