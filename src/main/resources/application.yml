@@ -1,8 +1,6 @@
 server:
   port: 8770
   shutdown: graceful
-  error:
-    include-stacktrace: never
 
 spring:
   application:
